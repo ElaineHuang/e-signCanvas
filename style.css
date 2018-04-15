@@ -1,0 +1,55 @@
+body {
+  padding: 50px;
+  text-align: center;
+  background: linear-gradient(45deg, #009999, #00ace6);
+}
+
+.container {
+  background: white;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+h1 {
+  color: #009999;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: 1px solid #099;
+  color: #099;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:hover {
+  opacity: .8;
+  transition: opacity .5s;
+}
+
+.btn-primary {
+  background: #099;
+  border: none;
+  color: white;
+}
+
+#sign-dataUrl {
+  width: 100%;
+  margin: 40px 0;
+  height: 80px;
+  border-radius: 3px;
+  border: 1px solid #099;
+}
+
+#sign-canvas {
+  border: 2px dashed #099;
+  margin-bottom: 20px;
+}
+
