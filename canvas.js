@@ -1,16 +1,4 @@
 (function() {
-	// Get a regular interval for drawing to the screen
-	window.requestAnimFrame = (function (callback) {
-		return window.requestAnimationFrame || 
-			window.webkitRequestAnimationFrame ||
-			window.mozRequestAnimationFrame ||
-			window.oRequestAnimationFrame ||
-			window.msRequestAnimaitonFrame ||
-			function (callback) {
-			 	window.setTimeout(callback, 1000/60);
-			};
-	})();
-
 	const canvas = document.getElementById("sign-canvas");
 	const ctx = canvas.getContext("2d");
 	
@@ -48,12 +36,12 @@
 
 	// Set up mouse events for drawing
 	var drawing = false;
-	var mousePos = { x: 0, y: 0 };
-	var lastPos = mousePos;
+	var nextPos = { x: 0, y: 0 };
+	var prevPos = nextPos;
 
 	canvas.addEventListener("mousedown", function (e) {
 		drawing = true;
-		lastPos = getMousePos(canvas, e);
+		prevPos = getMousePos(canvas, e);
 	});
 
 	canvas.addEventListener("mouseup", function (e) {
@@ -61,12 +49,12 @@
 	});
 
 	canvas.addEventListener("mousemove", function (e) {
-		mousePos = getMousePos(canvas, e);
+		nextPos = getMousePos(canvas, e);
 	});
 
 	// Set up touch events for mobile, etc
 	canvas.addEventListener("touchstart", function (e) {
-		mousePos = getTouchPos(canvas, e);
+		nextPos = getTouchPos(canvas, e);
 		const touch = e.touches[0];
 		const mouseEvent = new MouseEvent("mousedown", {
 			clientX: touch.clientX,
@@ -122,7 +110,6 @@
 
 	function resizeCanvas() {
 		const width = document.body.clientWidth;
-		console.log(width);
 		if (width < 650) {
 			canvas.width = width - 160;
 		}
@@ -151,10 +138,10 @@
 	// Draw to the canvas
 	function renderCanvas() {
 		if (drawing) {
-			ctx.moveTo(lastPos.x, lastPos.y);
-			ctx.lineTo(mousePos.x, mousePos.y);
+			ctx.moveTo(prevPos.x, prevPos.y);
+			ctx.lineTo(nextPos.x, nextPos.y);
 			ctx.stroke();
-			lastPos = mousePos;
+			prevPos = nextPos;
 		}
 	}
 
@@ -164,7 +151,7 @@
 
 	// Allow for animation
 	(function drawLoop () {
-		requestAnimFrame(drawLoop);
+		requestAnimationFrame(drawLoop);
 		renderCanvas();
 	})();
 
