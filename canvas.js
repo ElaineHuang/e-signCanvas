@@ -50,13 +50,16 @@
 	var drawing = false;
 	var mousePos = { x: 0, y: 0 };
 	var lastPos = mousePos;
+
 	canvas.addEventListener("mousedown", function (e) {
 		drawing = true;
 		lastPos = getMousePos(canvas, e);
 	});
+
 	canvas.addEventListener("mouseup", function (e) {
 		drawing = false;
 	});
+
 	canvas.addEventListener("mousemove", function (e) {
 		mousePos = getMousePos(canvas, e);
 	});
@@ -86,6 +89,18 @@
 		canvas.dispatchEvent(mouseEvent);
 	});
 
+	canvas.addEventListener('touchleave', function (e) {
+    e.preventDefault();
+    const mouseEvent = new MouseEvent('mouseup', {});
+    canvas.dispatchEvent(mouseEvent);
+  });
+
+  canvas.addEventListener('touchcancel', function (e) {
+    e.preventDefault();
+    const mouseEvent = new MouseEvent('mouseup', {});
+    canvas.dispatchEvent(mouseEvent);
+  });
+
 	// Prevent scrolling when touching the canvas
 	document.body.addEventListener("touchstart", function (e) {
 		if (e.target == canvas) {
@@ -102,6 +117,18 @@
 			e.preventDefault();
 		}
 	});
+
+	window.addEventListener('resize', resizeCanvas);
+
+	function resizeCanvas() {
+		const width = document.body.clientWidth;
+		console.log(width);
+		if (width < 650) {
+			canvas.width = width - 160;
+		}
+  }
+
+  resizeCanvas();
 
 	// Get the position of the mouse relative to the canvas
 	function getMousePos(canvasDom, mouseEvent) {
